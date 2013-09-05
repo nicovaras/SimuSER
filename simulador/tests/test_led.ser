@@ -1,0 +1,13 @@
+_start:
+	LED 0, 255
+	NOP
+	NOP
+	NOP
+	NOP
+	LED 0, 0
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
+	HALT

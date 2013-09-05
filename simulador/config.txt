@@ -1,0 +1,28 @@
+binario_fuente = ../TallerDocente/ejemplo6.lineFollow.sasm
+fondo = background/m2.png
+matriz_de_cajas = background/map2.dat
+
+
+posicion_inicial = 96,545
+size_pantalla = 800,600
+
+velocidad_clock = 50
+
+velocidad_robot = 5.0
+constante_duracion_motor = 1
+constante_angulo_rotacion = 20000
+
+maxima_distancia_proximity = 40
+dibujar_linea_proximidad = true
+
+print_debug = false
+header_size = 52
+angulo_inicial = 4.72
+
+//dejar estos como constants despues!
+color_left = 0
+color_mid  = 1
+color_right = 2
+proximity_sensor = 3
+
+dibujar_recorrido = true

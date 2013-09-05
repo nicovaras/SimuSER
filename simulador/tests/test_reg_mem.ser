@@ -1,0 +1,14 @@
+_start:
+	MOV R0, 1
+	MOV R1, 2
+	INC R0
+	DEC R0
+	ADD R0, 1
+	SUB R0, 1
+	ADD R0, R1
+	SUB R0, R1
+	MUL R0, 5
+	DIV R0, 5
+	MUL R0, R1
+	DIV R0, R1
+	STORE 10, R0

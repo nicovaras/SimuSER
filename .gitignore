@@ -1,0 +1,13 @@
+*.pyc
+SerIDE/
+.svn/
+Serial/
+TallerDocente/
+guia/
+interprete/
+interprete2/
+qtserialport/
+sasm/
+simulador.zip
+sp-build/
+src_old/
