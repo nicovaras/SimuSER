@@ -109,7 +109,7 @@ def motor_duration():
     return float(get_setting("constante_duracion_motor"))
 
 def rotation_constant():
-    return int(get_setting("constante_angulo_rotacion"))
+    return float(get_setting("constante_angulo_rotacion"))
 
 def max_proximity():
     return int(get_setting("maxima_distancia_proximity"))

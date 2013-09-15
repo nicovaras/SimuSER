@@ -40,7 +40,7 @@ all: clean $(SIMU)
 
 
 ifneq (, $(findstring mingw, $(SYS)))
-$(SIMU): $(VERSION)
+$(SIMU): $(VERSION) clean
 	python py2exe_setup.py
 	$(CP) config.txt dist$(SEP)
 	$(CP) img dist$(SEP)img
@@ -74,6 +74,7 @@ clean: clean-nix
 endif
 
 clean-win:
+	if exist "dist" $(RMDIR) "dist"
 	if exist "$(SIMU)" $(RM) "$(SIMU)"
 	if exist $(VERSION) $(RM) $(VERSION)
 

@@ -22,7 +22,7 @@
 '''
     Referencias
     
-    V16     Celda de variables de 16 bits (hay 256 celdas)
+    R16     Celda de variables de 16 bits (hay 256 celdas)
     IMM8    Numero entero de 8 bits sin signo
     IMM16   Numero entero de 16 bits sin signo
     PTR     Posicion del programa (24 bits sin signo)
@@ -33,48 +33,50 @@
 
 # Operaciones con datos 
 
-MOV_V16_IMM16   = 0x01    # Mueve IMM16 a V16 
-MOV_V16d_V16s   = 0x02    # Mueve V16s a V16d 
-LOAD_V16_IMM16  = 0x03    # Mueve el contenido de IMM16 en memoria a V16 
-LOAD_V16d_V16s  = 0x04    # Mueve el contenido de V16s en memoria a V16d 
-STORE_IMM16_V16 = 0x05    # Mueve el contenido de V16 a IMM16 en memoria 
-STORE_V16_IMM16 = 0x06    # Mueve IMM16 a V16 en memoria 
-STORE_V16d_V16s = 0x07    # Mueve el contenido de V16s a V16d en memoria 
+MOV_R16_IMM16   = 0x01    # Mueve IMM16 a R16 
+MOV_R16d_R16s   = 0x02    # Mueve R16s a R16d 
+LOAD_R16_IMM16  = 0x03    # Mueve el contenido de IMM16 en memoria a R16 
+LOAD_R16d_R16s  = 0x04    # Mueve el contenido de R16s en memoria a R16d 
+STORE_IMM16_R16 = 0x05    # Mueve el contenido de R16 a IMM16 en memoria 
+STORE_R16_IMM16 = 0x06    # Mueve IMM16 a R16 en memoria 
+STORE_R16d_R16s = 0x07    # Mueve el contenido de R16s a R16d en memoria 
 
 # Operaciones aritmeticas 
 
-INC_V16         = 0x10    # Incrementa en uno el valor de V16 
-DEC_V16         = 0x11    # Decrementa en uno el valor de V16 
-ADD_V16_IMM16   = 0x12    # Suma IMM16 a V16 
-ADD_V16d_V16s   = 0x13    # Suma V16s a V16d 
-SUB_V16_IMM16   = 0x14    # Resta IMM16 a V16 
-SUB_V16d_V16s   = 0x15    # Resta V16s a V16d 
-MUL_V16_IMM16   = 0x16    # Multiplica V16 por IMM16 y lo guarda en V16 
-MUL_V16d_V16s   = 0x17    # Multiplica V16s por V16d y lo guarda en V16d 
-DIV_V16_IMM16   = 0x18    # Divide V16 por IMM16 y lo guarda en V16 
-DIV_V16d_V16s   = 0x19    # Divide V16s por V16d y lo guarda en V16d 
+INC_R16         = 0x10    # Incrementa en uno el valor de R16 
+DEC_R16         = 0x11    # Decrementa en uno el valor de R16 
+ADD_R16_IMM16   = 0x12    # Suma IMM16 a R16 
+ADD_R16d_R16s   = 0x13    # Suma R16s a R16d 
+SUB_R16_IMM16   = 0x14    # Resta IMM16 a R16 
+SUB_R16d_R16s   = 0x15    # Resta R16s a R16d 
+MUL_R16_IMM16   = 0x16    # Multiplica R16 por IMM16 y lo guarda en R16 
+MUL_R16d_R16s   = 0x17    # Multiplica R16s por R16d y lo guarda en R16d 
+DIV_R16_IMM16   = 0x18    # Divide R16 por IMM16 y lo guarda en R16 
+DIV_R16d_R16s   = 0x19    # Divide R16s por R16d y lo guarda en R16d 
 
 # Saltos 
 
 JMP_PTR             = 0x20    # Continua la ejecucion en PTR 
-SKIPZ_V16           = 0x21    # Saltea la proxima instruccion si V16 es cero 
-SKIPE_V16_IMM16     = 0x22    # Saltea la proxima instruccion si V16 es = IMM16 
-SKIPE_V16d_V16s     = 0x23    # Saltea la proxima instruccion si V16s es = V16d 
-SKIPNE_V16_IMM16    = 0x24    # Saltea la proxima instruccion si V16 es <> IMM16 
-SKIPNE_V16d_V16s    = 0x25    # Saltea la proxima instruccion si V16s es <> V16d 
-SKIPG_V16_IMM16     = 0x26    # Saltea la proxima instruccion si V16 es > IMM16 
-SKIPG_V16d_V16s     = 0x27    # Saltea la proxima instruccion si V16s es > V16d 
-SKIPL_V16_IMM16     = 0x28    # Saltea la proxima instruccion si V16 es < IMM16 
-SKIPL_V16d_V16s     = 0x29    # Saltea la proxima instruccion si V16s es < V16d 
-SKIPGE_V16_IMM16    = 0x2A    # Saltea la proxima instruccion si V16 es >= IMM16 
-SKIPGE_V16d_V16s    = 0x2B    # Saltea la proxima instruccion si V16s es >= V16d 
-SKIPLE_V16_IMM16    = 0x2C    # Saltea la proxima instruccion si V16 es <= IMM16 
-SKIPLE_V16d_V16s    = 0x2D    # Saltea la proxima instruccion si V16s es <= V16d 
+SKIPZ_R16           = 0x21    # Saltea la proxima instruccion si R16 es cero 
+SKIPE_R16_IMM16     = 0x22    # Saltea la proxima instruccion si R16 es = IMM16 
+SKIPE_R16d_R16s     = 0x23    # Saltea la proxima instruccion si R16s es = R16d 
+SKIPNE_R16_IMM16    = 0x24    # Saltea la proxima instruccion si R16 es <> IMM16 
+SKIPNE_R16d_R16s    = 0x25    # Saltea la proxima instruccion si R16s es <> R16d 
+SKIPG_R16_IMM16     = 0x26    # Saltea la proxima instruccion si R16 es > IMM16 
+SKIPG_R16d_R16s     = 0x27    # Saltea la proxima instruccion si R16s es > R16d 
+SKIPL_R16_IMM16     = 0x28    # Saltea la proxima instruccion si R16 es < IMM16 
+SKIPL_R16d_R16s     = 0x29    # Saltea la proxima instruccion si R16s es < R16d 
+SKIPGE_R16_IMM16    = 0x2A    # Saltea la proxima instruccion si R16 es >= IMM16 
+SKIPGE_R16d_R16s    = 0x2B    # Saltea la proxima instruccion si R16s es >= R16d 
+SKIPLE_R16_IMM16    = 0x2C    # Saltea la proxima instruccion si R16 es <= IMM16 
+SKIPLE_R16d_R16s    = 0x2D    # Saltea la proxima instruccion si R16s es <= R16d 
 
 # Input/Output 
 
-SENSE_V16_ID8       = 0x30    # Escribe el valor de ID8 en V16 
+SENSE_R16_ID8       = 0x30    # Escribe el valor de ID8 en R16 
 MOTOR_IMM8_P8_P8    = 0x31    # Prende los motores durante IMM8 cseg. Utiliza las potencias para los motores izquierdo y derecho 
+MOTOR_IMM8_R8i_R8d  = 0x33
+MOTOR_R8t_R8i_R8d   = 0x34
 LED_ID8_ST8         = 0x32    # Pone al led ID8 en estado ST8 
 
 # Interrupciones 

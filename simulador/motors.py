@@ -25,8 +25,10 @@ class Motors:
         self.time = 0
         self.left_power = 0
         self.right_power = 0
+        self.R = 0.003865148*settings.motor_duration()
+        self.l = 55
+        self.v = 0
         self.rotation_delta = 0
-        self.speed = 0
 
     def remaining_time(self):
         return self.time
@@ -45,22 +47,8 @@ class Motors:
         self.compute_direction()
 
     def compute_direction(self):
-        direction = float(self.left_power - self.right_power) 
-        self.rotation_delta = direction*self.time/settings.rotation_constant()
-        
-        self.speed = (self.left_power + self.right_power)/2 * (settings.robot_speed()/100.0)
+        self.v = (self.R/2.0)*(self.left_power + self.right_power)
+        self.rotation_delta = -(self.R/self.l)*(self.right_power - self.left_power)
 
     def update_position_from(self, position, angle):
-        normalized_angle = ((int((angle*57.2957795)/10))*10)/57.2957795
-        print normalized_angle
-        x,y= self.basic_rotation_with(normalized_angle)
-        #x,y= self.apply_rotation_matrix_to(x,y)
-        return position[0] + int(x), position[1] + int(y)
-
-    def basic_rotation_with(self,angle):
-        return (math.cos(angle) * self.speed, math.sin(angle) * self.speed)
-
-    def apply_rotation_matrix_to(self,x,y):
-        x = math.cos(self.rotation_delta) * x + math.sin(self.rotation_delta) * y 
-        y = math.cos(self.rotation_delta) * y - math.sin(self.rotation_delta) * x
-        return x,y
+        return position[0]+self.v*math.cos(angle),position[1]+self.v*math.sin(angle)

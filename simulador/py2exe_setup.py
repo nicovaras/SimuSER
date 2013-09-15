@@ -189,7 +189,7 @@ if __name__ == '__main__':
     if operator.lt(len(sys.argv), 2):
         sys.argv.append('py2exe')
     BuildExe().run() #Run generation
-    raw_input("Press any key to continue") #Pause to let user see that things ends 
+    #~ raw_input("Press any key to continue") #Pause to let user see that things ends 
 # # Used successfully in Python2.5 with matplotlib 0.91.2 and PyQt4 (and Qt 4.3.3)
 # from distutils.core import setup
 # import py2exe

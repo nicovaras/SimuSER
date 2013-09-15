@@ -68,8 +68,10 @@ class SimuSER:
 
     def draw_robot(self, robot):
         if settings.draw_trace():
-            pygame.draw.circle(self.terrain, (0,0,0),(robot.position[0]+16,robot.position[1]+16) , 4)
+            pygame.draw.circle(self.terrain, (0,0,0),(int(robot.position[0])+16,int(robot.position[1])+16) , 4)
         self.background.blit(robot.sprite.get_img(), robot.update_position(self.box_background.boxes))
+        # robot_rect = pygame.Rect((robot.position[0]+10,robot.position[1]+10), (20,20))
+        # pygame.draw.rect(self.background, (0,0,0), robot_rect)
 
     def handle_event(self, event):
         if event.type == QUIT:

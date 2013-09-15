@@ -58,7 +58,6 @@ class Robot:
             return
        
         self.IP = self.execute_instruction()
-
         if self.IP >= len(self.code):
             self.done = True
 
@@ -71,117 +70,126 @@ class Robot:
         byte_2 = self.code[IP+2]
         byte_3 = self.code[IP+3]
 
-        if instruction == MOV_V16_IMM16:
+        if instruction == MOV_R16_IMM16:
             self.registers[byte_1] = (byte_3<<8) + byte_2
 
-        elif instruction == MOV_V16d_V16s:
+        elif instruction == MOV_R16d_R16s:
             self.registers[byte_1] = self.registers[byte_2]
 
-        elif instruction == LOAD_V16_IMM16:
+        elif instruction == LOAD_R16_IMM16:
             self.registers[byte_1] = self.memory.get((byte_3<<8) + byte_2,0)
 
-        elif instruction == LOAD_V16d_V16s:
+        elif instruction == LOAD_R16d_R16s:
             self.registers[byte_1] = self.memory.get(byte_2,0)
 
-        elif instruction == STORE_IMM16_V16:
+        elif instruction == STORE_IMM16_R16:
             self.memory[(byte_3<<8) + byte_2] = self.registers[byte_1]
 
-        elif instruction == STORE_V16_IMM16:
+        elif instruction == STORE_R16_IMM16:
             self.memory[self.registers[byte_1]] = (byte_3<<8) + byte_2
 
-        elif instruction == STORE_V16d_V16s:
+        elif instruction == STORE_R16d_R16s:
             self.memory[self.registers[byte_1]] = self.registers[byte_2]
 
-        elif instruction == INC_V16:
+        elif instruction == INC_R16:
             self.registers[byte_1] += 1
 
-        elif instruction == DEC_V16:
+        elif instruction == DEC_R16:
             self.registers[byte_1] -= 1
 
-        elif instruction == ADD_V16_IMM16:
+        elif instruction == ADD_R16_IMM16:
             self.registers[byte_1] += (byte_3<<8) + byte_2
 
-        elif instruction == ADD_V16d_V16s:
+        elif instruction == ADD_R16d_R16s:
             self.registers[byte_1] += self.registers[byte_2]
 
-        elif instruction == SUB_V16_IMM16:
+        elif instruction == SUB_R16_IMM16:
             self.registers[byte_1] -= (byte_3<<8) + byte_2
 
-        elif instruction == SUB_V16d_V16s:
+        elif instruction == SUB_R16d_R16s:
             self.registers[byte_1] -= self.registers[byte_2]
 
-        elif instruction == MUL_V16_IMM16:
+        elif instruction == MUL_R16_IMM16:
             self.registers[byte_1] *= (byte_3<<8) + byte_2
 
-        elif instruction == MUL_V16d_V16s:
+        elif instruction == MUL_R16d_R16s:
             self.registers[byte_1] *= self.registers[byte_2]
 
-        elif instruction == DIV_V16_IMM16:
+        elif instruction == DIV_R16_IMM16:
             self.registers[byte_1] /= (byte_3<<8) + byte_2
 
-        elif instruction == DIV_V16d_V16s:
+        elif instruction == DIV_R16d_R16s:
             self.registers[byte_1] /= self.registers[byte_2]
 
         elif instruction == JMP_PTR:
             next_IP = ((byte_3<<16) + (byte_2<<8) + byte_1)*4 + self.header_size()
 
-        elif instruction == SKIPZ_V16:
+        elif instruction == SKIPZ_R16:
             if self.registers[byte_1] == 0:
                 next_IP += 4
 
-        elif instruction == SKIPE_V16_IMM16:
+        elif instruction == SKIPE_R16_IMM16:
             if self.registers[byte_1] == (byte_3<<8) + byte_2:
                 next_IP += 4
 
-        elif instruction == SKIPE_V16d_V16s:
+        elif instruction == SKIPE_R16d_R16s:
             if self.registers[byte_1] == self.registers[byte_2]:
                 next_IP += 4
 
-        elif instruction == SKIPNE_V16_IMM16:
+        elif instruction == SKIPNE_R16_IMM16:
             if self.registers[byte_1] != (byte_3<<8) + byte_2:
                 next_IP += 4
 
-        elif instruction == SKIPNE_V16d_V16s:
+        elif instruction == SKIPNE_R16d_R16s:
             if self.registers[byte_1] != self.registers[byte_2]:
                 next_IP += 4
 
-        elif instruction == SKIPG_V16_IMM16:
+        elif instruction == SKIPG_R16_IMM16:
             if self.registers[byte_1] > (byte_3<<8) + byte_2:
                 next_IP += 4
 
-        elif instruction == SKIPG_V16d_V16s:
+        elif instruction == SKIPG_R16d_R16s:
             if self.registers[byte_2] > self.registers[byte_1]:
                 next_IP += 4
         
-        elif instruction == SKIPL_V16_IMM16:
+        elif instruction == SKIPL_R16_IMM16:
             if self.registers[byte_1] < (byte_3<<8) + byte_2:
                 next_IP += 4
         
-        elif instruction == SKIPL_V16d_V16s:
+        elif instruction == SKIPL_R16d_R16s:
             if self.registers[byte_2] < self.registers[byte_1]:
                 next_IP += 4
         
-        elif instruction == SKIPGE_V16_IMM16:
+        elif instruction == SKIPGE_R16_IMM16:
             if self.registers[byte_1] >= (byte_3<<8) + byte_2:
                 next_IP += 4
 
-        elif instruction == SKIPGE_V16d_V16s:
+        elif instruction == SKIPGE_R16d_R16s:
             if self.registers[byte_2] >= self.registers[byte_1]:
                 next_IP += 4
         
-        elif instruction == SKIPLE_V16_IMM16:
+        elif instruction == SKIPLE_R16_IMM16:
             if self.registers[byte_1] <= (byte_3<<8) + byte_2:
                 next_IP += 4
 
-        elif instruction == SKIPLE_V16d_V16s:
+        elif instruction == SKIPLE_R16d_R16s:
             if self.registers[byte_2] <= self.registers[byte_1]:
                 next_IP += 4
 
-        elif instruction == SENSE_V16_ID8:
+        elif instruction == SENSE_R16_ID8:
             self.registers[byte_1] = self.sensor_manager.sense_from(byte_2)
 
         elif instruction == MOTOR_IMM8_P8_P8:
             self.motors.set_and_start(byte_1,self.complement(byte_2),self.complement(byte_3))
+            #print (byte_1,self.complement(byte_2),self.complement(byte_3))
+
+        elif instruction == MOTOR_IMM8_R8i_R8d:
+            self.motors.set_and_start(byte_1,self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
+            #print (byte_1,self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
+
+        elif instruction == MOTOR_R8t_R8i_R8d:
+            self.motors.set_and_start(self.registers[byte_1],self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
+            #print (self.registers[byte_1],self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
 
         elif instruction == LED_ID8_ST8:
             if byte_2 == 0xff:
@@ -199,6 +207,7 @@ class Robot:
         elif instruction == CALL_PTR:
             self.stack.append(IP)
             next_IP = ((byte_3<<16) + (byte_2<<8) + byte_1)*4 + self.header_size()
+            print self.stack
 
         elif instruction == RET:
             next_IP = self.stack.pop()
@@ -219,16 +228,14 @@ class Robot:
             self.position = self.motors.update_position_from(self.position, self.theta)
             if self.collides_with(boxes):
                 self.position = previous_position
-            
             self.theta += self.motors.rotation_delta
             self.theta = self.theta % 6.28
             self.sprite.rotate(self.theta)
-
         return self.position
 
     def collides_with(self,boxes):
         boxlist = [pygame.Rect(box[0],box[1],32,32) for box in boxes]
-        robot_rect = pygame.Rect(self.position, (32,32))
+        robot_rect = pygame.Rect((self.position[0]+10,self.position[1]+10), (20,20))
         return robot_rect.collidelist(boxlist) != -1 
 
     def sense_color_of(self, surface):
@@ -254,6 +261,12 @@ class Robot:
             return value - 256
         else:
             return value
+ 
+    def complement_16(self,value):
+        if value > 32767:
+            return value - 65536
+        else:
+            return min([value, 255])
             
     def get_center(self):
         center = self.sprite.center()

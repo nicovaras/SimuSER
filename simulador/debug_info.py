@@ -21,6 +21,7 @@
 import pygame
 import settings
 import instructions
+import math
 
 class DebugInfo():
     def __init__(self, robot):
@@ -32,11 +33,16 @@ class DebugInfo():
         self.draw_motors(surface)
         self.draw_color_sensors(surface)
         self.draw_proximity(surface)
+        self.draw_angle(surface)
 
     def draw_registers(self, surface):
         register_text = self.font.render("Registers: " + self.register_print(), 1,(0,0,0))
         surface.blit(register_text, (5,570))
 
+    def draw_angle(self, surface):
+        angle_text = self.font.render("Angle: " + str(math.degrees(self.robot.theta)) , 1,(0,0,0))
+        surface.blit(angle_text, (5,100))
+    
     def draw_motors(self, surface):
         motor_text = self.font.render("Motors: " + str(self.robot.motors.left_power) + " " +str(self.robot.motors.right_power), 1,(0,0,0))
         surface.blit(motor_text, (5,20))
