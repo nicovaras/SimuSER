@@ -18,12 +18,6 @@
 
 # Department of Computer Sciences, FCEyN, University of Buenos Aires
 
-#pasar registros, 
-#click para saber como llegar
-#ver que settings releer en cada paso y cuales dejar fijas
-#No implementado todavia, solo pido un posible int_ptr
-#constantes para leds, sensores
-
 from instructions import *
 from decoder import *
 from motors import *
