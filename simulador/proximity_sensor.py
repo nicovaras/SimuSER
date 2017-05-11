@@ -21,27 +21,35 @@
 import settings
 import math
 class ProximitySensor():
-    def __init__(self):
+    def __init__(self, direction = 0):
         self.proximity = 255
+        self.direction = direction
 
     def get_sensor_value(self):
         return self.proximity
 
-    def sense_end_point(self, start, angle, boxes):
-        max_proximity = settings.max_proximity() #pasar a __init__
-        end_point = start[0] + math.cos(angle)*max_proximity ,start[1] + math.sin(angle)*max_proximity
+    def sense_end_point(self, start, angle, boxes, robots):
+        max_proximity = 80 #settings.max_proximity() #pasar a __init__
+        end_point = start[0] + math.cos(angle+self.direction)*max_proximity,start[1] + math.sin(angle+self.direction)*max_proximity
 
         distance = 255
         self.proximity = distance
-        for i in range(0,max_proximity,10):
-            point = start[0] + math.cos(angle)*i ,start[1] + math.sin(angle)*i
-            if self.collides_with_box(boxes,point):
+        for i in range(0,max_proximity,4):
+            point = start[0] + math.cos(angle+self.direction)*i ,start[1] + math.sin(angle+self.direction)*i
+            if self.collides_with_box(boxes,point) or self.collides_with_robot(robots,point):
                 end_point = point
                 self.proximity = i
                 break
               
         return end_point
-        
+    
+    def collides_with_robot(self,robots,point):
+        for robot in robots:
+            pos = robot.position
+            if point[0] >= pos[0] and point[0] <= pos[0]+32 and point[1] >= pos[1] and point[1] <= pos[1]+32:
+                return True
+        return False
+
     def collides_with_box(self,boxes,point):
         for box in boxes:
             if point[0] >= box[0] and point[0] <= box[0]+32 and point[1] >= box[1] and point[1] <= box[1]+32:

@@ -36,31 +36,29 @@ class DebugInfo():
         self.draw_angle(surface)
 
     def draw_registers(self, surface):
-        register_text = self.font.render("Registers: " + self.register_print(), 1,(0,0,0))
-        surface.blit(register_text, (5,570))
+        self.render_font_at("Registers: " + self.register_print(), (5,570), surface)
 
     def draw_angle(self, surface):
-        angle_text = self.font.render("Angle: " + str(math.degrees(self.robot.theta)) , 1,(0,0,0))
-        surface.blit(angle_text, (5,100))
+        self.render_font_at("Angle: " + str(int(100*math.degrees(self.robot.theta))/100.0), (5,100), surface)
     
     def draw_motors(self, surface):
-        motor_text = self.font.render("Motors: " + str(self.robot.motors.left_power) + " " +str(self.robot.motors.right_power), 1,(0,0,0))
-        surface.blit(motor_text, (5,20))
-        motor_text = self.font.render("Motor Time: " + str(self.robot.motors.remaining_time()), 1,(0,0,0))
-        surface.blit(motor_text, (5,40))
+        self.render_font_at("Motors: " + str(self.robot.motors.left_power) + " " +str(self.robot.motors.right_power), (5,20), surface)
+        self.render_font_at("Motor Time: " + str(self.robot.motors.remaining_time()), (5,40), surface)
 
     def draw_color_sensors(self, surface):
-        color_text = self.font.render("Color Sensor: ", 1,(0,0,0))
-        surface.blit(color_text, (5,60))
+        xpos, ypos = 5, 60
+        self.render_font_at("Color Sensor: ", (xpos, ypos), surface)
 
         for i in range(len(self.robot.sensor_manager.color_sensors)):
-	        pygame.draw.rect(surface, (0,0,0), [105 + 15*i, 63, 10, 10], 2)
-	        pygame.draw.rect(surface, self.robot.sensor_manager.color_sensors[i].current_color, [106 + 15*i, 64, 9, 9])
+	        pygame.draw.rect(surface, (0,0,0), [xpos + 125 + 17*i, ypos + 7, 12, 12], 2)
+	        pygame.draw.rect(surface, self.robot.sensor_manager.color_sensors[i].current_color, [xpos + 126 + 17*i, ypos + 8, 10, 10])
 	        
 
     def draw_proximity(self, surface):
-        color_text = self.font.render("Proximity Sensor: " + str(self.robot.sensor_manager.proximity_sensors[0].proximity), 1,(0,0,0))
-        surface.blit(color_text, (5,80))
+        string = "Proximity Sensor: " 
+        for sensor in self.robot.sensor_manager.proximity_sensors:
+            string += str(sensor.proximity) + " "
+        self.render_font_at(string, (5,80), surface)
 
     def register_print(self):
         reg_str = ""
@@ -83,4 +81,10 @@ class DebugInfo():
         code = self.robot.code
         IP = self.robot.IP   
         print instruction_name, code[IP+1], code[IP+2], code[IP+3]
+    
+    def render_font_at(self, string, pos, surface):
+        surface.blit(self.font.render(string, 1,(0,0,0)), (pos[0]-1,pos[1]-1))
+        surface.blit(self.font.render(string, 1,(0,0,0)), (pos[0]+1,pos[1]+1))
+        surface.blit(self.font.render(string, 1,(255,255,255)), pos)
+
 

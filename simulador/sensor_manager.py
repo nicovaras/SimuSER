@@ -21,17 +21,20 @@
 from color_sensors import *
 from proximity_sensor import *
 import settings
+import math
 
 class SensorManager():
     def __init__(self):
         self.color_sensors = [ColorSensor(0,-0.785),
                               ColorSensor(1,0.0),
                               ColorSensor(2,0.785)]
-        self.proximity_sensors = [ProximitySensor()]
-        self.sensor_ids = { 0: self.color_sensors[0],
-                            1: self.color_sensors[1],
-                            2: self.color_sensors[2],
-                            settings.proximity_sensor(): self.proximity_sensors[0]}
+        self.proximity_sensors = [ProximitySensor(),ProximitySensor(-math.pi/2),ProximitySensor(math.pi/2)]
+        self.sensor_ids = { 3: self.color_sensors[0],
+                            4: self.color_sensors[1],
+                            5: self.color_sensors[2],
+                            1: self.proximity_sensors[0],
+                            2: self.proximity_sensors[1],
+                            0: self.proximity_sensors[2]}
 
 
     def sense_from(self, sensor_id):
@@ -41,6 +44,5 @@ class SensorManager():
         for color_sensor in self.color_sensors:
             color_sensor.sense_at(surface, center, theta)
 
-    def sense_end_point(self, start, angle, boxes):
-        #Esto no sirve para mas de 1 sensor de proximidad
-        return self.proximity_sensors[0].sense_end_point(start,angle,boxes)
+    def sense_end_point(self, start, angle, boxes, robots):
+        return [self.proximity_sensors[i].sense_end_point(start,angle,boxes,robots) for i in range(len(self.proximity_sensors))]

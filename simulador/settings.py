@@ -49,6 +49,7 @@ def get_args():
     parser.add_argument('-back', dest='background', nargs=1, help='Archivo background (piso)')
     parser.add_argument('-boxes', dest='boxes', nargs=1, help='Archivo de matriz de cajas')
     parser.add_argument('-map', dest='map', nargs=1, help='Archivo de mapa (fondo + cajas)')
+    parser.add_argument('-robot_file', dest='robot_file', nargs=1, help='Archivo de robots')
     return parser.parse_args()
 
 args = get_args()
@@ -63,6 +64,11 @@ def get_setting(setting):
                 return setting_line[1].strip()
     raise Exception("No se encontro " + setting + " en config.txt")
 
+def get_robot_file():
+    if args.robot_file:
+        return args.robot_file[0]
+    else:
+        return None
 
 def source_file():
     if args.bin:
@@ -115,10 +121,7 @@ def max_proximity():
     return int(get_setting("maxima_distancia_proximity"))
 
 def draw_proximity():
-    if get_setting("dibujar_linea_proximidad") == 'true':
-        return 3
-    else:   
-        return 0
+    return get_setting("dibujar_linea_proximidad") == 'true'
 
 def print_debug():
     return get_setting("print_debug") == 'true'

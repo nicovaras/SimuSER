@@ -13,10 +13,10 @@ constante_duracion_motor = 4
 
 constante_angulo_rotacion = 41.4495	
 
-maxima_distancia_proximity = 40
-dibujar_linea_proximidad = true
+maxima_distancia_proximity = 80
+dibujar_linea_proximidad = false
 
-print_debug = true
+print_debug = false
 header_size = 60
 angulo_inicial = 4.71238898
 
@@ -25,5 +25,7 @@ color_left = 0
 color_mid  = 1
 color_right = 2
 proximity_sensor = 3
+proximity_sensor_izq = 4
+proximity_sensor_der = 5
 
 dibujar_recorrido = true

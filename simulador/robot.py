@@ -18,6 +18,12 @@
 
 # Department of Computer Sciences, FCEyN, University of Buenos Aires
 
+#pasar registros, 
+#click para saber como llegar
+#ver que settings releer en cada paso y cuales dejar fijas
+#No implementado todavia, solo pido un posible int_ptr
+#constantes para leds, sensores
+
 from instructions import *
 from decoder import *
 from motors import *
@@ -42,6 +48,7 @@ class Robot:
         self.theta = settings.initial_angle()
         self.sensor_manager = SensorManager()
         self.sprite = RobotSprite()
+        self.id = 1
 
     def next_instruction(self):
         if self.done:
@@ -175,15 +182,12 @@ class Robot:
 
         elif instruction == MOTOR_IMM8_P8_P8:
             self.motors.set_and_start(byte_1,self.complement(byte_2),self.complement(byte_3))
-            #print (byte_1,self.complement(byte_2),self.complement(byte_3))
 
         elif instruction == MOTOR_IMM8_R8i_R8d:
             self.motors.set_and_start(byte_1,self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
-            #print (byte_1,self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
 
         elif instruction == MOTOR_R8t_R8i_R8d:
             self.motors.set_and_start(self.registers[byte_1],self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
-            #print (self.registers[byte_1],self.complement_16(self.registers[byte_2]),self.complement_16(self.registers[byte_3]))
 
         elif instruction == LED_ID8_ST8:
             if byte_2 == 0xff:
@@ -229,16 +233,19 @@ class Robot:
 
     def collides_with(self,boxes):
         boxlist = [pygame.Rect(box[0],box[1],32,32) for box in boxes]
-        robot_rect = pygame.Rect((self.position[0]+10,self.position[1]+10), (20,20))
-        return robot_rect.collidelist(boxlist) != -1 
+        return self.get_collision_rect().collidelist(boxlist) != -1 
+    
+    def get_collision_rect(self):
+        cx,cy = self.get_center()
+        return pygame.Rect((cx-7,cy-7), (14,14))
 
     def sense_color_of(self, surface):
         self.sensor_manager.sense_color_of(self.get_center(),surface,self.theta)
 
-    def proximity_line(self,boxes):        #Sacar de esta clase
+    def proximity_lines(self,boxes,robots):        #Sacar de esta clase
         start = self.get_center()
-        end = self.sensor_manager.sense_end_point(start,self.theta,boxes)
-        return start, end
+        ends = self.sensor_manager.sense_end_point(start,self.theta,boxes,robots)
+        return [(start, end) for end in ends]
 
     def header_size(self):
         return settings.header_size()
