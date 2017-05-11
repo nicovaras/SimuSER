@@ -57,12 +57,13 @@ class SimuSER:
             robots = []
             with open(robot_file) as f:
                 data = f.read().split()
-                for i in range(0,len(data),3):
+                for i in range(0,len(data),4):
                     r = robot.Robot()
                     r.set_code(data[i].strip())
                     r.position = tuple([int(x) for x in data[i+1].split(',')])
                     r.theta = float(data[i+2])
-                    r.id = i/3 +1 
+                    r.id = i/4 +1 
+                    r.change_team(int(data[i+3]))
                     robots.append(r)
             self.show_ids = True
         return robots
@@ -142,9 +143,24 @@ class SimuSER:
     def run_robot(self, robot):
         if self.show_debug:
             self.print_debug()
+        self.draw_box_score()
         self.calculate_proximity(robot)
         robot.sense_color_of(self.terrain)        
         robot.next_instruction()
+
+    def draw_box_score(self):
+        score1 = str(len(filter(lambda x: x.color == 1, self.box_background.boxes)))
+        score2 = str(len(filter(lambda x: x.color == 2, self.box_background.boxes)))
+        font = pygame.font.SysFont("Arial",100)
+        pos = (50,400)
+        self.background.blit(font.render(score1, 1,(0,0,0)), (pos[0]-1,pos[1]-1))
+        self.background.blit(font.render(score1, 1,(0,0,0)), (pos[0]+1,pos[1]+1))
+        self.background.blit(font.render(score1, 1,(200,0,0)), pos)
+        pos = (680,400)
+        self.background.blit(font.render(score2, 1,(0,0,0)), (pos[0]-1,pos[1]-1))
+        self.background.blit(font.render(score2, 1,(0,0,0)), (pos[0]+1,pos[1]+1))
+        self.background.blit(font.render(score2, 1,(0,200,0)), pos)
+
 
     def print_debug(self):
         self.debug.draw_debug_info_in(self.background)

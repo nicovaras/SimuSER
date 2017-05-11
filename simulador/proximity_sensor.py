@@ -52,6 +52,6 @@ class ProximitySensor():
 
     def collides_with_box(self,boxes,point):
         for box in boxes:
-            if point[0] >= box[0] and point[0] <= box[0]+32 and point[1] >= box[1] and point[1] <= box[1]+32:
+            if point[0] >= box.pos[0] and point[0] <= box.pos[0]+32 and point[1] >= box.pos[1] and point[1] <= box.pos[1]+32:
                 return True
         return False

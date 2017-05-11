@@ -49,6 +49,7 @@ class Robot:
         self.sensor_manager = SensorManager()
         self.sprite = RobotSprite()
         self.id = 1
+        self.team = 1
 
     def next_instruction(self):
         if self.done:
@@ -225,6 +226,7 @@ class Robot:
             previous_position = self.position
             self.position = self.motors.update_position_from(self.position, self.theta)
             if self.collides_with(boxes):
+                self.change_box_color(boxes)
                 self.position = previous_position
             self.theta += self.motors.rotation_delta
             self.theta = self.theta % 6.28
@@ -232,9 +234,14 @@ class Robot:
         return self.position
 
     def collides_with(self,boxes):
-        boxlist = [pygame.Rect(box[0],box[1],32,32) for box in boxes]
+        boxlist = [pygame.Rect(box.pos[0],box.pos[1],32,32) for box in boxes]
         return self.get_collision_rect().collidelist(boxlist) != -1 
     
+    def change_box_color(self,boxes):
+        boxlist = [pygame.Rect(box.pos[0],box.pos[1],32,32) for box in boxes]
+        print self.get_collision_rect().collidelist(boxlist) 
+        boxes[self.get_collision_rect().collidelist(boxlist)].color = self.team
+
     def get_collision_rect(self):
         cx,cy = self.get_center()
         return pygame.Rect((cx-7,cy-7), (14,14))
@@ -275,3 +282,10 @@ class Robot:
 
     def set_code(self, input_file):
          self.code = Decoder().code_from(input_file)
+    
+    def change_team(self,team):
+        self.team = team
+        if self.team == 1:
+            self.sprite.led_off()
+        elif self.team ==2:
+            self.sprite.led_on()

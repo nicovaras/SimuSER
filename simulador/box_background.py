@@ -20,6 +20,7 @@
 
 import settings
 import pygame
+import box
 
 class BoxBackground:
     def __init__(self, matrix = None):
@@ -27,12 +28,11 @@ class BoxBackground:
             self.boxes = self.load_boxes_from(matrix)
         else:
             self.boxes = self.load_boxes_from_file()
-        self.box_img = pygame.image.load(settings.get_full_file_path("img/box.png")).convert()
 
     #Public#
     def draw_boxes_in(self, background):
-        for box_position in self.boxes:
-            background.blit(self.box_img, box_position)
+        for _box in self.boxes:
+            background.blit(_box.image(), _box.pos)
 
     #Private#
     def load_boxes_from(self,matrix):
@@ -40,7 +40,7 @@ class BoxBackground:
         for i in range(19):
             for j in range(25):
                 if matrix[i][j] == 1:
-                    self.boxes.append((j*32,i*32))
+                    self.boxes.append(box.Box((j*32,i*32)))
         return self.boxes
 
     def load_boxes_from_file(self):
@@ -51,5 +51,5 @@ class BoxBackground:
             line = self.box_map.readline()
             for j in range(25):
                 if line[j] == '1':
-                    self.boxes.append((j*32,i*32))
+                    self.boxes.append(box.Box((j*32,i*32)))
         return self.boxes

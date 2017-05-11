@@ -1,4 +1,4 @@
-binario_fuente = ../TallerDocente/ejemplo6.lineFollow.sasm
+binario_fuente = tests/asd.sasm
 fondo = background/m2.png
 matriz_de_cajas = background/map2.dat
 
@@ -6,7 +6,7 @@ matriz_de_cajas = background/map2.dat
 posicion_inicial = 96,500
 size_pantalla = 800,600
 
-velocidad_clock = 50
+velocidad_clock = 500
 
 velocidad_robot = 3
 constante_duracion_motor = 4
@@ -28,4 +28,4 @@ proximity_sensor = 3
 proximity_sensor_izq = 4
 proximity_sensor_der = 5
 
-dibujar_recorrido = true
+dibujar_recorrido = false
